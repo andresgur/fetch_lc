@@ -37,8 +37,6 @@ name = result_table[0]["MAIN_ID"]
 print("Source name\n ------ \n%s" % name)
 outdir += "/%s" % name
 
-outdir += "/%s" % name
-
 if not os.path.isdir(outdir):
     os.mkdir(outdir)
 
