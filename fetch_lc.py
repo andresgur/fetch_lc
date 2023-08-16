@@ -8,7 +8,7 @@ import subprocess
 from astroquery.simbad import Simbad
 from coordinates import convert_ra_dec
 
-ap = argparse.ArgumentParser(description='Fetch data from various archival data (TESS, PTF, ZTF, Swift-XRT, WISE, etc))')
+ap = argparse.ArgumentParser(description='Fetch data from various archival data (so far TESS, PTF, ZTF, Swift-XRT, WISE)')
 ap.add_argument("--ra", help="Right ascension", type=str, nargs="?", required=True)
 ap.add_argument("--dec", help="Declination", type=str, nargs="?", required=True)
 ap.add_argument("-o", "--outdir", nargs='?', help="Output dir name", type=str, default="data")
@@ -19,7 +19,7 @@ dec = args.dec
 ra, dec = convert_ra_dec(ra, dec)
 result_table = Simbad.query_region("%.5f, %+.5f" % (ra, dec))
 name = result_table[0]["MAIN_ID"]
-print("Source name\n ------ \n %s" % name)
+print(" Source name\n --------- \n %s" % name)
 
 
 archives = ["tess", "ptf", "ztf", "wise", "mast"] # "swift",
