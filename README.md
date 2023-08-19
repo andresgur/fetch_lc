@@ -16,4 +16,5 @@ To use it simply run
 * astroquery 0.4.7.dev8076
 # Installation
 Simply clone the github repository and install the required dependencies
+
 `git clone https://github.com/andresgur/fetch_lc`
