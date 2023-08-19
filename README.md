@@ -5,3 +5,5 @@ To use it simply run
  `python fetch_lc.py --ra "XX.XX" --dec "XX.XX" `
 (space or ":" separated formats are accepted too) and the code will identify your object and retrieve all available catalog lightcurves. It is also possible to call any of the individual scripts e.g.
 `python tess.py --ra "XX.XX" --dec "XX.XX"`
+# Installation
+Simply clone the github repository
