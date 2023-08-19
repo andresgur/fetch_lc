@@ -1,2 +1,7 @@
 # fetch_lc
-Code to retrieve lightcurves from multiple surveys using scripts
+Your one-stop shop to all catalogue lightcurves! Simply supply the Ra and Dec of your favourite object and see the magic happen. So far implemented TESS, PTF, ZTF, WISE, GALEX, SWIFT-UVOT, SWIFT-XRT and FERMI-LAT.
+
+To use it simply run
+ `python fetch_lc.py --ra "XX.XX" --dec "XX.XX" `
+(space or ":" separated formats are accepted too) and the code will identify your object and retrieve all available catalog lightcurves. It is also possible to call the individual scripts e.g.
+`python tess.py --ra "XX.XX" --dec "XX.XX"`
