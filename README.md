@@ -1,7 +1,7 @@
 # fetch_lc
-Your one-stop shop to all catalogue lightcurves! Simply supply the Ra and Dec of your favourite object and see the magic happen. So far implemented TESS, PTF, ZTF, WISE, GALEX, SWIFT-UVOT, SWIFT-XRT and FERMI-LAT.
+Your one-stop shop to all catalogue lightcurves! 
 
-To use it simply run
+Simply supply the Ra and Dec of your favourite object and see the magic happen. So far implemented TESS, PTF, ZTF, WISE, GALEX, SWIFT-UVOT, SWIFT-XRT and FERMI-LAT.
 
  `python fetch_lc.py --ra "XX.XX" --dec "XX.XX" `
  
