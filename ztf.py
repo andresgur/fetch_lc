@@ -37,6 +37,7 @@ lcq = lightcurve.LCQuery.from_position(ra, dec, 5) # radius in arcsec
 if len(lcq.data) == 0:
     print("No data found")
 else:
+
     data = lcq.data
     print("Found %d ZTF observations" % len(lcq.data))
     # Plot Kepler Lightcurves
@@ -44,12 +45,13 @@ else:
 
     bands = ["zg", "zr", "zi"]
     for band in bands:
-        band_filter = data["filtercode"].values==band
-        times = data['mjd'].values[band_filter]
-        mags = data['mag'].values[band_filter]
-        mag_err = data['magerr'].values[band_filter]
-        exptime = data["exptime"].values[band_filter]
-        catflags = data["catflags"].values[band_filter]
+        # sometimes the data is not sorted, so let's sort it
+        band_data = data[data["filtercode"].values==band]
+        times = band_data['mjd'].values
+        mags = band_data['mag'].values
+        mag_err = band_data['magerr'].values
+        exptime = band_data["exptime"].values
+        catflags = band_data["catflags"].values
         plt.errorbar(times, mags, yerr=mag_err,
                      ls='None', label="%s" % band) # , fmt="+"
         outputfile = "%s/ztf_%s.dat" %(outdir, band)
