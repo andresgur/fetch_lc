@@ -43,7 +43,7 @@ for row in result_table["ID"]:
         fgl_idenitfier = row
         break  # Break out of the loop once you find the desired name
 if fgl_idenitfier is None:
-    warning.warn("Source %s not found in the Fermi catalog!" % name)
+    warnings.warn("Source %s not found in the Fermi catalog!" % name)
 else:
 
     data = pyLCR.getLightCurve(fgl_idenitfier, cadence=args.cadence, flux_type='photon',
@@ -61,8 +61,8 @@ else:
     upp_lims = data.ts < data.ts_min
     outputs = np.array([data.met_detections / 3600 / 24 + MJDREFF + MJDREFI, data.flux, flux_error_neg, flux_error_pos, data.ts[~upp_lims],
                         data.photon_index,
-                        data.photon_index - data.photon_index_interval, data.fit_convergence[~upp_lims]])
-    header = "MJD,flux,flux_err_neg,flux_err_pos,ts,photon_index,photon_index_err,fit_convergence"
+                        data.photon_index - data.photon_index_interval, data.fit_convergence[~upp_lims],data.EG[~upp_lims],data.GAL[~upp_lims]])
+    header = "MJD,flux,flux_err_neg,flux_err_pos,ts,photon_index,photon_index_err,fit_convergence,EG,GAL"
 
     outputfile = "%s/fermi_lat_%s.dat" % (outdir, args.cadence)
 
@@ -70,8 +70,9 @@ else:
                delimiter=delimiter, fmt="%.6e", header=header)
     # save upper limits
 
-    outputs = np.array([data.met_upperlimits  / 3600 / 24 + MJDREFF + MJDREFI, data.flux_upper_limits, data.ts[upp_lims], data.fit_convergence[upp_lims]])
+    outputs = np.array([data.met_upperlimits  / 3600 / 24 + MJDREFF + MJDREFI, data.flux_upper_limits, data.ts[upp_lims],
+                        data.fit_convergence[upp_lims], data.EG[upp_lims], data.GAL[upp_lims]])
     outputfile = "%s/fermi_lat_upplims_%s.dat" % (outdir, args.cadence)
-    header = "MJD,flux,ts,photon_index,photon_index_err,fit_convergence"
+    header = "MJD,flux,ts,photon_index,photon_index_err,fit_convergence,EG,GAL"
     np.savetxt(outputfile, outputs.T,
                delimiter=delimiter, fmt="%.6e", header=header)
