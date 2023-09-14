@@ -52,10 +52,13 @@ else:
         mag_err = band_data['magerr'].values
         exptime = band_data["exptime"].values
         catflags = band_data["catflags"].values
+        flux = 10**((band_data["mag"] + band_data["magzp"]).values / (-2.5))
+        dflux = np.log(10) * flux / (2.5) * (np.sqrt(band_data["magerr"]**2).values) # adding back in the error on zpmag would be double counting as presumably magerr already has that band_data["magzprms"]**2
+
         plt.errorbar(times, mags, yerr=mag_err,
                      ls='None', label="%s" % band) # , fmt="+"
         outputfile = "%s/ztf_%s.dat" %(outdir, band)
-        np.savetxt(outputfile, np.asarray([times, mags, mag_err,exptime, catflags]).T,
-                   delimiter="\t", fmt="%.6f", header="t\tmag\terr\texposures\tcatflags")
+        np.savetxt(outputfile, np.asarray([times, mags, mag_err,exptime, flux, dflux, catflags]).T,
+                   fmt="%.6f\t%.5f\t%.5f\t%.1f\t%.5e\t%.5e\t%d", header="t\tmag\terr\texposures\tflux\tdflux\tcatflags")
     ax.legend()
     plt.savefig("%s/ztf.png" % outdir)
