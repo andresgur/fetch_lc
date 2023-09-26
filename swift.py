@@ -37,7 +37,7 @@ print("Found user ID %s" % userid)
 
 # TODO: do config file!
 print("Using a positional uncertainty of %.2f arcminutes" % args.posErr)
-myReq = ux.XRTProductRequest('a.gurpide-lasheras@soton.ac.uk', silent=False)
+myReq = ux.XRTProductRequest(userid, silent=False)
 myReq.setGlobalPars(centroid=args.centroid, useSXPS=True, RA=ra, Dec=dec, getTargs=True, getT0=True,
                     name=name, posErr=args.posErr)
 myReq.addLightCurve(binMeth='snapshot', allowUL="no")
