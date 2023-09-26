@@ -31,6 +31,10 @@ outdir = create_outdir(outdir, name)
 if not os.path.isdir(outdir):
     os.mkdir(outdir)
 
+userid = open("swift_user.id", "r").readlines()[0]
+
+print("Found user ID %s" % userid)
+
 # TODO: do config file!
 print("Using a positional uncertainty of %.2f arcminutes" % args.posErr)
 myReq = ux.XRTProductRequest('a.gurpide-lasheras@soton.ac.uk', silent=False)
@@ -50,7 +54,7 @@ done = myReq.complete
 start_time = time.time()
 cumulative_time = 0
 while not done:
-  time.sleep(120)
+  time.sleep(500)
   done = myReq.complete
   end_time = time.time()
   cumulative_time += cumulative_time + end_time - start_time
