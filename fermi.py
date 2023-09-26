@@ -20,6 +20,9 @@ ap.add_argument("--cadence", help="Cadence. Options daily (3 day bins), weekly o
 ap.add_argument("-o", "--outdir", nargs='?', help="Output dir name. Default: data", type=str, default="data")
 args = ap.parse_args()
 
+if not os.path.isdir("data"):
+    os.mkdir("data")
+
 ra_str = args.ra
 dec_str = args.dec
 outdir = args.outdir

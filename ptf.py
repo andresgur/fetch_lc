@@ -4,11 +4,11 @@ import os
 import time
 import numpy as np
 from uncertainties import unumpy
-import math as m
-from coordinates import convert_ra_dec
 from astroquery.simbad import Simbad
 from astroquery.ipac.irsa import Irsa
 import warnings
+from fetch_lc import create_outdir, get_source_names
+from coordinates import convert_ra_dec
 
 ap = argparse.ArgumentParser(description='Fetch data from PFT (https://www.ptf.caltech.edu/system/media_files/binaries/30/original/Objects_SourcesTable_cols_v3.html)')
 ap.add_argument("--ra", help="Right ascension", type=str, nargs="?", required=True)
@@ -16,26 +16,19 @@ ap.add_argument("--dec", help="Declination", type=str, nargs="?", required=True)
 ap.add_argument("-o", "--outdir", nargs='?', help="Output dir name", type=str, default="data")
 args = ap.parse_args()
 
-ra = args.ra
-dec = args.dec
+ra_str = args.ra
+dec_str = args.dec
 outdir = args.outdir
 
-ra, dec = convert_ra_dec(ra, dec)
-
-ra_dec = "%.12f %+.12f" % (ra, dec)
-print("(RA, Dec) = (%s)" % (ra_dec))
+if not os.path.isdir("data"):
+    os.mkdir("data")
 
 if not os.path.isdir(outdir):
     os.mkdir(outdir)
-## KEPLER data
 
-result_table = Simbad.query_region("%.5f, %+.5f" % (ra, dec))
-name = result_table[0]["MAIN_ID"]
-print("Source name\n ------ \n %s" % name)
-outdir += "/%s" % name
-
-if not os.path.isdir(outdir):
-    os.mkdir(outdir)
+ra, dec = convert_ra_dec(ra_str, dec_str)
+name = get_source_names(ra, dec)[0]
+outdir = create_outdir(outdir, name)
 
 # PTF data from the
 lightcurves = Irsa.query_region("%.5f, %+.5f" % (ra, dec), catalog="ptf_lightcurves", radius='0.4"') # in arcsec

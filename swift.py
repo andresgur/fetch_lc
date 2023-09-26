@@ -18,6 +18,10 @@ ap.add_argument("--posErr", help="Positional uncertainty for the centroiding alg
 ap.add_argument("-o", "--outdir", nargs='?', help="Output dir name", type=str, default="data")
 args = ap.parse_args()
 
+
+if not os.path.isdir("data"):
+    os.mkdir("data")
+
 ra = args.ra
 dec = args.dec
 outdir = args.outdir
@@ -33,11 +37,13 @@ if not os.path.isdir(outdir):
 
 userid = open("swift_user.id", "r").readlines()[0]
 
-print("Found user ID %s" % userid)
+print("\nFound user ID %s. If not correct modify the file swift_user.id with your ID before running\n" % userid)
 
 # TODO: do config file!
 print("Using a positional uncertainty of %.2f arcminutes" % args.posErr)
+
 myReq = ux.XRTProductRequest(userid, silent=False)
+
 myReq.setGlobalPars(centroid=args.centroid, useSXPS=True, RA=ra, Dec=dec, getTargs=True, getT0=True,
                     name=name, posErr=args.posErr)
 myReq.addLightCurve(binMeth='snapshot', allowUL="no")

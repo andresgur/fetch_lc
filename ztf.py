@@ -17,6 +17,9 @@ ap.add_argument("--dec", help="Declination", type=str, nargs="?", required=True)
 ap.add_argument("-o", "--outdir", nargs='?', help="Output dir name", type=str, default="data")
 args = ap.parse_args()
 
+if not os.path.isdir("data"):
+    os.mkdir("data")
+
 ra = args.ra
 dec = args.dec
 outdir = args.outdir
@@ -51,14 +54,15 @@ else:
         mags = band_data['mag'].values
         mag_err = band_data['magerr'].values
         exptime = band_data["exptime"].values
+        magzp = band_data["magzp"].values # zero points
         catflags = band_data["catflags"].values
-        flux = 10**((band_data["mag"] + band_data["magzp"]).values / (-2.5))
+        flux = 10**((band_data["mag"] + magzp).values / (-2.5))
         dflux = np.log(10) * flux / (2.5) * (np.sqrt(band_data["magerr"]**2).values) # adding back in the error on zpmag would be double counting as presumably magerr already has that band_data["magzprms"]**2
 
         plt.errorbar(times, mags, yerr=mag_err,
                      ls='None', label="%s" % band) # , fmt="+"
         outputfile = "%s/ztf_%s.dat" %(outdir, band)
-        np.savetxt(outputfile, np.asarray([times, mags, mag_err,exptime, flux, dflux, catflags]).T,
-                   fmt="%.6f\t%.5f\t%.5f\t%.1f\t%.5e\t%.5e\t%d", header="t\tmag\terr\texposures\tflux\tdflux\tcatflags")
+        np.savetxt(outputfile, np.asarray([times, mags, mag_err,exptime, flux, dflux, magzp, catflags]).T,
+                   fmt="%.6f\t%.5f\t%.5f\t%.1f\t%.5e\t%.5e\t%.4f\t%d", header="t\tmag\terr\texposures\tflux\tdflux\tmagzp\tcatflags")
     ax.legend()
     plt.savefig("%s/ztf.png" % outdir)
