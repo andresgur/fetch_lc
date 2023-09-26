@@ -14,6 +14,7 @@ Simply supply the Ra and Dec of your favourite object and see the magic happen. 
 * lightkurve 2.4.0
 * ztfquery 1.19.1
 * astroquery 0.4.7.dev8076
+For swift to work, you also need to register your account at [link][https://www.swift.ac.uk/user_objects/register.php] and add your email in the file swift_user.id 
 # Installation
 Simply clone the github repository and install the required dependencies
 
