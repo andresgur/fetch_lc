@@ -38,7 +38,7 @@ names = get_source_names(ra, dec)
 
 outdir = create_outdir(outdir, names[0])
 
-header = "t_day\tflux\tflux_err\texposure\tbkg_rate\tbkg_err\tmag\tmag_err"
+header = "day\tflux\tflux_err\texposure\tbkg_rate\tbkg_err\tmag\tmag_err"
 
 search_result = lk.search_lightcurve('%s' % (ra_dec), radius=0.1, mission=('Kepler', 'K2', 'TESS'),
                    author=("K2", "Kepler", "TESS", "SPOC")) # 0.0001 is the default in arcsec #TESS-SPOC might give more up-todate lightcurves
